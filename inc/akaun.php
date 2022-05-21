@@ -4,7 +4,7 @@
 /* CPT AKAUN PEMOHON */
 /**********************/
 
-function tempahan_borang_custom_post_type() {
+function pendaftaran_akaun_custom_post_type() {
 	add_theme_support( 'post-thumbnails', array( 'post', 'borang-stk' ) );
 
 	$labels = array(
@@ -59,7 +59,7 @@ function tempahan_borang_custom_post_type() {
 	register_post_type( 'borang-stk', $args );
 
 }
-add_action( 'init', 'tempahan_borang_custom_post_type', 0 );
+add_action( 'init', 'pendaftaran_akaun_custom_post_type', 0 );
 
 
 /********************/
