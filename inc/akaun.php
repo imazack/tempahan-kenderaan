@@ -5,7 +5,7 @@
 /**********************/
 
 function pendaftaran_akaun_custom_post_type() {
-	add_theme_support( 'post-thumbnails', array( 'post', 'borang-stk' ) );
+	add_theme_support( 'post-thumbnails', array( 'post', 'daftar-stk' ) );
 
 	$labels = array(
 		'name'                  => _x( 'Permohonan', 'Post Type General Name', 'text_domain' ),
@@ -187,9 +187,9 @@ function stk_metabox_save( $post_id )
 /* DISPLAY COLUMNS	*/
 /*******************/
 
-// Add the custom columns to the borang-stk post type:
+// Add the custom columns to the daftar-stk post type:
 add_filter( 'manage_daftar-stk_posts_columns', 'set_custom_edit_daftar_columns' );
-function set_custom_edit_borang_columns($columns) {
+function set_custom_edit_daftar_columns($columns) {
     unset( $columns['author'] );
     unset( $columns['date'] );
     $columns['nama_sendiri_text'] = __( 'Nama', 'your_text_domain' );
@@ -199,9 +199,9 @@ function set_custom_edit_borang_columns($columns) {
     return $columns;
 }
 
-// Add the data to the custom columns for the borang-stk post type:
-add_action( 'manage_daftar-stk_posts_custom_column' , 'custom_borang_column', 10, 2 );
-function custom_borang_column( $column, $post_id ) {
+// Add the data to the custom columns for the daftar-stk post type:
+add_action( 'manage_daftar-stk_posts_custom_column' , 'custom_daftar_column', 10, 2 );
+function custom_daftar_column( $column, $post_id ) {
     switch ( $column ) {
 
         case 'nama_sendiri_text' :
