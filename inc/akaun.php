@@ -1,7 +1,7 @@
 <?php
 
 /************************/
-/* CPT BORANG TEMPAHAN */
+/* CPT AKAUN PEMOHON */
 /**********************/
 
 function tempahan_borang_custom_post_type() {
