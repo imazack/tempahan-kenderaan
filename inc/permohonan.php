@@ -83,9 +83,6 @@ function stk_meta_box_add()
 
 		//Section E - Keputusan Permohonan//
 	add_meta_box( 'section_e', 'Keputusan Permohonan', 'stk_metabox_se', 'borang-stk', 'normal', 'default' );
-
-	//Section F - Akaun Pemohon//
-	add_meta_box( 'section_f', 'Akaun Pemohon', 'stk_metabox_sf', 'borang-stk', 'normal', 'default' );
 }
 
 
@@ -291,62 +288,6 @@ function stk_metabox_se($post)
 <?php        
 }
 
-///////////////////////////////////
-// Section F - Akaun Pemohon  //
-//////////////////////////////////
-function section_f($post) {
-	echo 'Section F';
-}
-
-function stk_metabox_f($post)
-{
-	// We'll use this nonce field later on when saving.
-	wp_nonce_field( 'stk_metabox_nonce', 'stk_nonce' );
-	
-	$namasendiri = get_post_meta( $post->ID, 'nama_sendiri_text', true );
-	$namakeluarga = get_post_meta( $post->ID, 'nama_keluarga_text', true );
-	$jawatan = get_post_meta( $post->ID, 'jawatan_text', true );
-	$bahagian = get_post_meta( $post->ID, 'bahagian_select', true );
-	$phone = get_post_meta( $post->ID, 'phone_text', true );
-	$email = get_post_meta( $post->ID, 'email_text', true );
-	$password = get_post_meta($post->ID, 'password_text', true)
-	?>
-	<p>
-			<label for="nama_text">Nama Penuh</label>
-			<input type="text" name="nama_sendiri_text" id="nama_sendiri_text" value="<?php echo esc_attr($namasendiri); ?>" placeholder="Nama Sendiri" />
-			<input type="text" name="nama_keluarga_text" id="nama_keluarga_text" value="<?php echo esc_attr($namakeluarga); ?>" placeholder="Nama Keluarga" />
-	</p>
-	<p>
-			<label for="jawatan_text">Jawatan</label>
-			<input type="text" name="jawatan_text" id="jawatan_text" value="<?php echo esc_attr($jawatan); ?>" />
-	</p>
-	<p>
-		<label for="bahagian_select">Bahagian</label>
-		<select name="bahagian_select" id="bahagian_select">
-			<option value="none" selected disabled hidden>Nyatakan Bahagian</option>
-            <option value="pengurusan_atasan" <?php selected( $bahagian, 'pengurusan_atasan' ); ?>>Pengurusan Atasan (KP,TKP (D), TKP (O)</option>
-            <option value="bkp" <?php selected( $bahagian, 'bkp' ); ?>>Bahagian Khidmat Pengurusan</option>
-			<option value="bkps" <?php selected( $bahagian, 'bkps' ); ?>>Bahagian Keselamatan Personel</option>
-            <option value="bpk" <?php selected( $bahagian, 'bpk' ); ?>>Bahagian Penyelarasan dan Korporat</option>
-			<option value="bkictrr" <?php selected( $bahagian, 'bkictrr' ); ?>>Bahagian Keselamatan ICT dan Rahsia Rasmi</option>
-            <option value="bipp" <?php selected( $bahagian, 'bipp' ); ?>>Bahagian Inspektoran, Pematuhan dan Pengiktirafan</option>
-			<option value="bkfpt" <?php selected( $bahagian, 'bkfpt' ); ?>>Bahagian Keselamatan Fizikal dan Penilaian Teknikal</option>
-            <option value="bspkltl" <?php selected( $bahagian, 'bspkltl' ); ?>>Bahagian Sasaran Penting, Kawasan Larangan dan Tempat Larangan</option>
-			<option value="bah_kompleks" <?php selected( $bahagian, 'bah_kompleks' ); ?>>Bahagian Kompleks Pentadbiran Kerajaan Persekutuan</option>
-            <option value="integriti" <?php selected( $bahagian, 'integriti' ); ?>>Unit Integriti</option>
-        </select>
-	</p>
-	<p>
-			<label for="phone_text">No. Telefon</label>
-			<input type="text" name="phone_text" id="phone_text" value="<?php echo esc_attr($phone); ?>" />
-			<label for="email_text">Emel</label>
-			<input type="email" name="email_text" id="email_text" value="<?php echo esc_attr($email); ?>" placeholder="Emel Rasmi" />
-			<input type="password" name="pass_text" id="pass_text" value="<?php echo esc_attr($pass); ?>" placeholder="Cipta Kata Laluan" />
-	</p>
-<?php        
-}
-
-
 /********************/
 /* 		SAVING DATA		*/
 /*******************/
@@ -457,32 +398,6 @@ function stk_metabox_save( $post_id )
 			update_post_meta( $post_id, 'tarikh_keputusan', $_POST['tarikh_keputusan'] );
 		}
 
-		///////////////////////
-		// Saving Section F //
-		/////////////////////
-
-    // Make sure your data is set before trying to save it
-    if( isset( $_POST['nama_sendiri_text'] ) ){
-        update_post_meta( $post_id, 'nama_sendiri_text', $_POST['nama_sendiri_text'] );
-		}
-		if( isset( $_POST['nama_keluarga_text'] ) ){
-			update_post_meta( $post_id, 'nama_keluarga_text', $_POST['nama_keluarga_text'] );
-		}
-		if( isset( $_POST['jawatan_text'] ) ){
-			update_post_meta( $post_id, 'jawatan_text', $_POST['jawatan_text'] );
-		}
-		if( isset( $_POST['bahagian_select'] ) ){
-			update_post_meta( $post_id, 'bahagian_select', $_POST['bahagian_select'] );
-		}
-		if( isset( $_POST['phone_text'] ) ){
-			update_post_meta( $post_id, 'phone_text', $_POST['phone_text'] );
-		}
-		if( isset( $_POST['email_text'] ) ){
-			update_post_meta( $post_id, 'email_text', $_POST['email_text'] );
-		}
-		if( isset( $_POST['pass_text'] ) ){
-			update_post_meta( $post_id, 'pass_text', $_POST['pass_text'] );
-		}
 
 		// This is purely my personal preference for saving check-boxes
     // $chk = isset( $_POST['my_meta_box_check'] ) && $_POST['my_meta_box_select'] ? 'on' : 'off';
