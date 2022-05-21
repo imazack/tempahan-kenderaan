@@ -56,7 +56,7 @@ function pendaftaran_akaun_custom_post_type() {
 		'publicly_queryable'    => true,
 		'capability_type'       => 'post',
 	);
-	register_post_type( 'borang-stk', $args );
+	register_post_type( 'daftar-stk', $args );
 
 }
 add_action( 'init', 'pendaftaran_akaun_custom_post_type', 0 );
@@ -70,7 +70,7 @@ add_action( 'add_meta_boxes', 'stk_meta_box_add' );
 function stk_meta_box_add()
 {
 		//Section A - Akaun Pemohon//
-    add_meta_box( 'section_a', 'Akaun Pemohon', 'stk_metabox_sa', 'borang-stk', 'normal', 'default' );
+    add_meta_box( 'section_a', 'Akaun Pemohon', 'stk_metabox_sa', 'daftar-stk', 'normal', 'default' );
 }
 
 
@@ -188,19 +188,19 @@ function stk_metabox_save( $post_id )
 /*******************/
 
 // Add the custom columns to the borang-stk post type:
-add_filter( 'manage_borang-stk_posts_columns', 'set_custom_edit_borang_columns' );
+add_filter( 'manage_daftar-stk_posts_columns', 'set_custom_edit_daftar_columns' );
 function set_custom_edit_borang_columns($columns) {
     unset( $columns['author'] );
     unset( $columns['date'] );
     $columns['nama_sendiri_text'] = __( 'Nama', 'your_text_domain' );
     $columns['phone_text'] = __( 'No.Telefon', 'your_text_domain' );
-	$columns['tarikh_ambil_text'] = __( 'Tarikh Guna Kenderaan', 'your_text_domain' );
+	$columns['pass_text'] = __( 'Kata Laluan', 'your_text_domain' );
 
     return $columns;
 }
 
 // Add the data to the custom columns for the borang-stk post type:
-add_action( 'manage_borang-stk_posts_custom_column' , 'custom_borang_column', 10, 2 );
+add_action( 'manage_daftar-stk_posts_custom_column' , 'custom_borang_column', 10, 2 );
 function custom_borang_column( $column, $post_id ) {
     switch ( $column ) {
 
@@ -213,7 +213,7 @@ function custom_borang_column( $column, $post_id ) {
             break;
 
 		case 'tarikh_ambil_text' :
-			echo get_post_meta( $post_id , 'tarikh_ambil_text' , true ); 
+			echo get_post_meta( $post_id , 'pass_text' , true ); 
 			break;
 
     }
