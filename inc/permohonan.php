@@ -294,11 +294,11 @@ function stk_metabox_se($post)
 ///////////////////////////////////
 // Section F - Akaun Pemohon  //
 //////////////////////////////////
-function section_a($post) {
-	echo 'Section A';
+function section_f($post) {
+	echo 'Section F';
 }
 
-function stk_metabox_sa($post)
+function stk_metabox_f($post)
 {
 	// We'll use this nonce field later on when saving.
 	wp_nonce_field( 'stk_metabox_nonce', 'stk_nonce' );
