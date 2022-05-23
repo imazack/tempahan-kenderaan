@@ -47,7 +47,7 @@ function pendaftaran_akaun_custom_post_type() {
 		'show_ui'               => true,
 		'show_in_menu'          => true,
 		'menu_position'         => 5,
-    'menu_icon'             => 'dashicons-car',
+    	'menu_icon'             => 'dashicons-car',
 		'show_in_admin_bar'     => true,
 		'show_in_nav_menus'     => true,
 		'can_export'            => true,
@@ -63,28 +63,28 @@ add_action( 'init', 'pendaftaran_akaun_custom_post_type', 0 );
 
 
 /********************/
-/* 		META BOXES 		*/
+/* 		META BOXES 	*/
 /*******************/
 
-add_action( 'add_meta_boxes', 'stk_meta_box_add' );
-function stk_meta_box_add()
+add_action( 'add_meta_boxes', 'stk_pendaftaran_meta_box_add' );
+function stk_pendaftaran_meta_box_add()
 {
 		//Section A - Akaun Pemohon//
-    add_meta_box( 'section_a', 'Akaun Pemohon', 'stk_metabox_sa', 'daftar-stk', 'normal', 'default' );
+    add_meta_box( 'section_a_daftar', 'Akaun Pemohon', 'stk_pendaftaran_metabox_sa', 'daftar-stk', 'normal', 'default' );
 }
 
 
 ///////////////////////////////////
 // Section A - Akaun Pemohon  //
 //////////////////////////////////
-function section_a($post) {
+function section_a_daftar($post) {
 	echo 'Section A';
 }
 
-function stk_metabox_sa($post)
+function stk_pendaftaran_metabox_sa($post)
 {
 	// We'll use this nonce field later on when saving.
-	wp_nonce_field( 'stk_metabox_nonce', 'stk_nonce' );
+	wp_nonce_field( 'stk_pendaftaran_metabox_nonce', 'stk_nonce' );
 	
 	$namasendiri = get_post_meta( $post->ID, 'nama_sendiri_text', true );
 	$namakeluarga = get_post_meta( $post->ID, 'nama_keluarga_text', true );
@@ -135,15 +135,15 @@ function stk_metabox_sa($post)
 /* 		SAVING DATA		*/
 /*******************/
 
-add_action( 'save_post', 'stk_metabox_save' );
-function stk_metabox_save( $post_id )
+add_action( 'save_post', 'stk_pendaftaran_metabox_save' );
+function stk_pendaftaran_metabox_save( $post_id )
 {
 
 	  // Bail if we're doing an auto save
     if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
      
     // if our nonce isn't there, or we can't verify it, bail
-		if( !isset( $_POST['stk_nonce'] ) || !wp_verify_nonce( $_POST['stk_nonce'], 'stk_metabox_nonce' ) ) return;
+		if( !isset( $_POST['stk_nonce'] ) || !wp_verify_nonce( $_POST['stk_nonce'], 'stk_pendaftaran_metabox_nonce' ) ) return;
      
     // if our current user can't edit this post, bail
     if( !current_user_can( 'edit_post' ) ) return;
@@ -193,7 +193,7 @@ function set_custom_edit_daftar_columns($columns) {
     unset( $columns['author'] );
     unset( $columns['date'] );
     $columns['nama_sendiri_text'] = __( 'Nama', 'your_text_domain' );
-    $columns['phone_text'] = __( 'No.Telefon', 'your_text_domain' );
+    $columns['email_text'] = __( 'Alamat Emel', 'your_text_domain' );
 	$columns['pass_text'] = __( 'Kata Laluan', 'your_text_domain' );
 
     return $columns;
@@ -208,8 +208,8 @@ function custom_daftar_column( $column, $post_id ) {
             echo get_post_meta( $post_id , 'nama_sendiri_text' , true );
             break;
 
-        case 'phone_text' :
-            echo get_post_meta( $post_id , 'phone_text' , true ); 
+        case 'email_text' :
+            echo get_post_meta( $post_id , 'email_text' , true ); 
             break;
 
 		case 'tarikh_ambil_text' :
