@@ -47,7 +47,7 @@ function pendaftaran_akaun_custom_post_type() {
 		'show_ui'               => true,
 		'show_in_menu'          => true,
 		'menu_position'         => 5,
-    	'menu_icon'             => 'dashicons-car',
+    	'menu_icon'             => 'dashicons-car', //icon kat wp admin
 		'show_in_admin_bar'     => true,
 		'show_in_nav_menus'     => true,
 		'can_export'            => true,
@@ -69,19 +69,46 @@ add_action( 'init', 'pendaftaran_akaun_custom_post_type', 0 );
 add_action( 'add_meta_boxes', 'stk_pendaftaran_meta_box_add' );
 function stk_pendaftaran_meta_box_add()
 {
-		//Section A - Akaun Pemohon//
-    add_meta_box( 'section_a_daftar', 'Akaun Pemohon', 'stk_pendaftaran_metabox_sa', 'daftar-stk', 'normal', 'default' );
+		//Section A - Log Masuk//
+    add_meta_box( 'section_a_daftar', 'Log Masuk', 'stk_pendaftaran_metabox_sa', 'daftar-stk', 'normal', 'default' );
+		//Section B - Akaun Pemohon//
+    add_meta_box( 'section_b_daftar', 'Akaun Pemohon', 'stk_pendaftaran_metabox_sb', 'daftar-stk', 'normal', 'default' );
 }
 
 
 ///////////////////////////////////
-// Section A - Akaun Pemohon  //
+// Section A - Log Masuk  //
 //////////////////////////////////
 function section_a_daftar($post) {
 	echo 'Section A';
 }
 
 function stk_pendaftaran_metabox_sa($post)
+{
+	// We'll use this nonce field later on when saving.
+	wp_nonce_field( 'stk_pendaftaran_metabox_nonce', 'stk_nonce' );
+	
+	$email = get_post_meta( $post->ID, 'email_text', true );
+    $pass = get_post_meta($post->ID, 'password_text', true);
+
+	?>
+	<p>
+			<label for="email_text">ID Pengguna</label>
+			<input type="email" name="email_text" id="email_text" value="<?php echo esc_attr($email); ?>" placeholder="Emel Rasmi" />
+			<label for="pass_text">Kata Laluan</label>
+            <input type="password" name="pass_text" id="pass_text" value="<?php echo esc_attr($pass); ?>" placeholder="Masukan Kata Laluan" />
+	</p>
+<?php        
+}
+
+///////////////////////////////////
+// Section B - Akaun Pemohon  //
+//////////////////////////////////
+function section_b_daftar($post) {
+	echo 'Section B';
+}
+
+function stk_pendaftaran_metabox_sb($post)
 {
 	// We'll use this nonce field later on when saving.
 	wp_nonce_field( 'stk_pendaftaran_metabox_nonce', 'stk_nonce' );
@@ -96,13 +123,13 @@ function stk_pendaftaran_metabox_sa($post)
 
 	?>
 	<p>
-			<label for="nama_text">Nama Penuh</label>
-			<input type="text" name="nama_sendiri_text" id="nama_sendiri_text" value="<?php echo esc_attr($namasendiri); ?>" placeholder="Nama Sendiri" />
-			<input type="text" name="nama_keluarga_text" id="nama_keluarga_text" value="<?php echo esc_attr($namakeluarga); ?>" placeholder="Nama Keluarga" />
+		<label for="nama_text">Nama Penuh</label>
+		<input type="text" name="nama_sendiri_text" id="nama_sendiri_text" value="<?php echo esc_attr($namasendiri); ?>" placeholder="Nama Sendiri" />
+		<input type="text" name="nama_keluarga_text" id="nama_keluarga_text" value="<?php echo esc_attr($namakeluarga); ?>" placeholder="Nama Keluarga" />
 	</p>
 	<p>
-			<label for="jawatan_text">Jawatan</label>
-			<input type="text" name="jawatan_text" id="jawatan_text" value="<?php echo esc_attr($jawatan); ?>" />
+		<label for="jawatan_text">Jawatan</label>
+		<input type="text" name="jawatan_text" id="jawatan_text" value="<?php echo esc_attr($jawatan); ?>" />
 	</p>
 	<p>
 		<label for="bahagian_select">Bahagian</label>
@@ -121,11 +148,18 @@ function stk_pendaftaran_metabox_sa($post)
         </select>
 	</p>
 	<p>
-			<label for="phone_text">No. Telefon</label>
-			<input type="text" name="phone_text" id="phone_text" value="<?php echo esc_attr($phone); ?>" />
-			<label for="email_text">Emel</label>
-			<input type="email" name="email_text" id="email_text" value="<?php echo esc_attr($email); ?>" placeholder="Emel Rasmi" />
-            <input type="password" name="pass_text" id="pass_text" value="<?php echo esc_attr($pass); ?>" placeholder="Cipta Kata Laluan" />
+		<label for="phone_text">No. Telefon</label>
+		<input type="text" name="phone_text" id="phone_text" value="<?php echo esc_attr($phone); ?>" />
+		<label for="email_text">Emel</label>
+		<input type="email" name="email_text" id="email_text" value="<?php echo esc_attr($email); ?>" placeholder="Emel Rasmi" />
+	</p>
+		<label for="pass_text">Cipta Kata Laluan</label>
+        <input type="password" name="pass_text" id="pass_text" value="<?php echo esc_attr($pass); ?>" placeholder="Cipta Kata Laluan" />
+	<p>
+		<label for="admin_radio">Adakah Anda Pentadbir Sistem</label>
+		<input type="radio" name="keputusan_radio" value="Lulus" <?php echo ($keputusan == 'Lulus')? 'checked="checked"':''; ?>/>Ya
+		<input type="radio" name="keputusan_radio" value="Tidak Lulus" <?php echo ($keputusan == 'Tidak Lulus')? 'checked="checked"':''; ?>/>Tidak
+	</p>
 	</p>
 <?php        
 }
@@ -157,6 +191,21 @@ function stk_pendaftaran_metabox_save( $post_id )
     if( isset( $_POST['nama_sendiri_text'] ) ){
         update_post_meta( $post_id, 'nama_sendiri_text', $_POST['nama_sendiri_text'] );
 		}
+		if( isset( $_POST['email_text'] ) ){
+			update_post_meta( $post_id, 'email_text', $_POST['email_text'] );
+        }
+		if( isset( $_POST['pass_text'] ) ){
+			update_post_meta( $post_id, 'pass_text', $_POST['pass_text'] );
+		}
+
+		///////////////////////
+		// Saving Section B //
+		/////////////////////
+
+    // Make sure your data is set before trying to save it
+    if( isset( $_POST['nama_sendiri_text'] ) ){
+        update_post_meta( $post_id, 'nama_sendiri_text', $_POST['nama_sendiri_text'] );
+		}
 		if( isset( $_POST['nama_keluarga_text'] ) ){
 			update_post_meta( $post_id, 'nama_keluarga_text', $_POST['nama_keluarga_text'] );
 		}
@@ -174,6 +223,9 @@ function stk_pendaftaran_metabox_save( $post_id )
         }
 		if( isset( $_POST['pass_text'] ) ){
 			update_post_meta( $post_id, 'pass_text', $_POST['pass_text'] );
+		}
+		if( isset( $_POST['admin_radio'] ) ){
+			update_post_meta( $post_id, 'keputusan_radio', $_POST['keputusan_radio'] );
 		}
 
 		
