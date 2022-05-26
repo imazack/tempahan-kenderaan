@@ -47,7 +47,7 @@ function tempahan_borang_custom_post_type() {
 		'show_ui'               => true,
 		'show_in_menu'          => true,
 		'menu_position'         => 5,
-    'menu_icon'             => 'dashicons-car',
+    	'menu_icon'             => 'dashicons-car',
 		'show_in_admin_bar'     => true,
 		'show_in_nav_menus'     => true,
 		'can_export'            => true,
@@ -190,15 +190,11 @@ function stk_metabox_sc($post)
 	$destinasi = get_post_meta( $post->ID, 'destinasi_text', true );
 	?>
 
+
 	<p>
-			<label for="tujuan_text">Tujuan</label>
-			<br>
-			<textarea id="tujuan_text" name="tujuan_text" rows="10" cols="70"><?php echo esc_attr($tujuan); ?></textarea>
-	</p>
-	<p>
-			<label for="destinasi_text">Destinasi</label>
-			<br>
-			<textarea id="destinasi_text" name="destinasi_text" rows="10" cols="70"><?php echo esc_attr($destinasi); ?></textarea>
+		<label>Tujuan dan Destinasi</label>
+        <label>(Muat naik surat arahan)</label>
+        <input type="file" id="suratarahan_file" name="filename" placeholder="Surat Arahan" required>
 	</p>
 <?php        
 }
