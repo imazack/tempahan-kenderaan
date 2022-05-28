@@ -69,46 +69,19 @@ add_action( 'init', 'pendaftaran_akaun_custom_post_type', 0 );
 add_action( 'add_meta_boxes', 'stk_pendaftaran_meta_box_add' );
 function stk_pendaftaran_meta_box_add()
 {
-		//Section A - Log Masuk//
-    add_meta_box( 'section_a_daftar', 'Log Masuk', 'stk_pendaftaran_metabox_sa', 'daftar-stk', 'normal', 'default' );
-		//Section B - Akaun Pemohon//
-    add_meta_box( 'section_b_daftar', 'Akaun Pemohon', 'stk_pendaftaran_metabox_sb', 'daftar-stk', 'normal', 'default' );
-}
-
-
-///////////////////////////////////
-// Section A - Log Masuk  //
-//////////////////////////////////
-function section_a_daftar($post) {
-	echo 'Section A';
-}
-
-function stk_pendaftaran_metabox_sa($post)
-{
-	// We'll use this nonce field later on when saving.
-	wp_nonce_field( 'stk_pendaftaran_metabox_nonce', 'stk_nonce' );
 	
-	$email = get_post_meta( $post->ID, 'email_text', true );
-    $pass = get_post_meta($post->ID, 'password_text', true);
-
-	?>
-	<p>
-			<label for="email_text">ID Pengguna</label>
-			<input type="email" name="email_text" id="email_text" value="<?php echo esc_attr($email); ?>" placeholder="Emel Rasmi" />
-			<label for="pass_text">Kata Laluan</label>
-            <input type="password" name="pass_text" id="pass_text" value="<?php echo esc_attr($pass); ?>" placeholder="Masukan Kata Laluan" />
-	</p>
-<?php        
+		//Akaun Pemohon//
+    add_meta_box( 'daftar', 'Akaun Pemohon', 'stk_pendaftaran_metabox', 'daftar-stk', 'normal', 'default' );
 }
 
 ///////////////////////////////////
-// Section B - Akaun Pemohon  //
+// Section  - Akaun Pemohon  //
 //////////////////////////////////
-function section_b_daftar($post) {
-	echo 'Section B';
+function daftar($post) {
+	echo 'Daftar';
 }
 
-function stk_pendaftaran_metabox_sb($post)
+function stk_pendaftaran_metabox($post)
 {
 	// We'll use this nonce field later on when saving.
 	wp_nonce_field( 'stk_pendaftaran_metabox_nonce', 'stk_nonce' );
@@ -124,8 +97,8 @@ function stk_pendaftaran_metabox_sb($post)
 	?>
 	<p>
 		<label for="nama_text">Nama Penuh</label>
-		<input type="text" name="daftar_nama_sendiri_text" id="daftar_nama_sendiri_text" value="<?php echo esc_attr($namasendiri); ?>" placeholder="Nama Sendiri" />
-		<input type="text" name="daftar_nama_keluarga_text" id="daftar_nama_keluarga_text" value="<?php echo esc_attr($namakeluarga); ?>" placeholder="Nama Keluarga" />
+		<input type="text" name="daftar_nama_sendiri_text" id="nama_sendiri_text" value="<?php echo esc_attr($namasendiri); ?>" placeholder="Nama Sendiri" />
+		<input type="text" name="daftar_nama_keluarga_text" id="nama_keluarga_text" value="<?php echo esc_attr($namakeluarga); ?>" placeholder="Nama Keluarga" />
 	</p>
 	<p>
 		<label for="daftar_jawatan_text">Jawatan</label>
@@ -133,7 +106,7 @@ function stk_pendaftaran_metabox_sb($post)
 	</p>
 	<p>
 		<label for="daftar_bahagian_select">Bahagian</label>
-		<select name="bahagian_select" id="daftar_bahagian_select">
+		<select name="bahagian_select" id="bahagian_select">
 			<option value="none" selected disabled hidden>Nyatakan Bahagian</option>
             <option value="pengurusan_atasan" <?php selected( $bahagian, 'pengurusan_atasan' ); ?>>Pengurusan Atasan (KP,TKP (D), TKP (O)</option>
             <option value="bkp" <?php selected( $bahagian, 'bkp' ); ?>>Bahagian Khidmat Pengurusan</option>
@@ -149,12 +122,12 @@ function stk_pendaftaran_metabox_sb($post)
 	</p>
 	<p>
 		<label for="daftar_phone_text">No. Telefon</label>
-		<input type="text" name="daftar_phone_text" id="daftar_phone_text" value="<?php echo esc_attr($phone); ?>" />
+		<input type="text" name="daftar_phone_text" id="phone_text" value="<?php echo esc_attr($phone); ?>" />
 		<label for="daftar_email_text">Emel</label>
-		<input type="daftar_email" name="email_text" id="daftar_email_text" value="<?php echo esc_attr($email); ?>" placeholder="Emel Rasmi" />
+		<input type="daftar_email" name="email_text" id="email_text" value="<?php echo esc_attr($email); ?>" placeholder="Emel Rasmi" />
 	</p>
 		<label for="daftar_pass_text">Cipta Kata Laluan</label>
-        <input type="password" name="daftar_pass_text" id="daftar_pass_text" value="<?php echo esc_attr($pass); ?>" placeholder="Cipta Kata Laluan" />
+        <input type="password" name="daftar_pass_text" id="pass_text" value="<?php echo esc_attr($pass); ?>" placeholder="Cipta Kata Laluan" />
 	<p>
 		<label for="admin_radio">Adakah Anda Pentadbir Sistem</label>
 		<input type="radio" name="keputusan_radio" value="Lulus" <?php echo ($keputusan == 'Lulus')? 'checked="checked"':''; ?>/>Ya
@@ -183,13 +156,26 @@ function stk_pendaftaran_metabox_save( $post_id )
     if( !current_user_can( 'edit_post' ) ) return;
          
 
+
 		///////////////////////
-		// Saving Section A //
+		// Saving Daftar //
 		/////////////////////
 
     // Make sure your data is set before trying to save it
     if( isset( $_POST['nama_sendiri_text'] ) ){
         update_post_meta( $post_id, 'nama_sendiri_text', $_POST['nama_sendiri_text'] );
+		}
+		if( isset( $_POST['nama_keluarga_text'] ) ){
+			update_post_meta( $post_id, 'nama_keluarga_text', $_POST['nama_keluarga_text'] );
+		}
+		if( isset( $_POST['jawatan_text'] ) ){
+			update_post_meta( $post_id, 'jawatan_text', $_POST['jawatan_text'] );
+		}
+		if( isset( $_POST['bahagian_select'] ) ){
+			update_post_meta( $post_id, 'bahagian_select', $_POST['bahagian_select'] );
+		}
+		if( isset( $_POST['phone_text'] ) ){
+			update_post_meta( $post_id, 'phone_text', $_POST['phone_text'] );
 		}
 		if( isset( $_POST['email_text'] ) ){
 			update_post_meta( $post_id, 'email_text', $_POST['email_text'] );
@@ -197,35 +183,8 @@ function stk_pendaftaran_metabox_save( $post_id )
 		if( isset( $_POST['pass_text'] ) ){
 			update_post_meta( $post_id, 'pass_text', $_POST['pass_text'] );
 		}
-
-		///////////////////////
-		// Saving Section B //
-		/////////////////////
-
-    // Make sure your data is set before trying to save it
-    if( isset( $_POST['daftar_nama_sendiri_text'] ) ){
-        update_post_meta( $post_id, 'daftar_nama_sendiri_text', $_POST['daftar_nama_sendiri_text'] );
-		}
-		if( isset( $_POST['nama_keluarga_text'] ) ){
-			update_post_meta( $post_id, 'nama_keluarga_text', $_POST['daftar_nama_keluarga_text'] );
-		}
-		if( isset( $_POST['daftar_jawatan_text'] ) ){
-			update_post_meta( $post_id, 'daftar_jawatan_text', $_POST['daftar_jawatan_text'] );
-		}
-		if( isset( $_POST['daftar_bahagian_select'] ) ){
-			update_post_meta( $post_id, 'daftar_bahagian_select', $_POST['daftar_bahagian_select'] );
-		}
-		if( isset( $_POST['daftar_phone_text'] ) ){
-			update_post_meta( $post_id, 'daftar_phone_text', $_POST['daftar_phone_text'] );
-		}
-		if( isset( $_POST['daftar_email_text'] ) ){
-			update_post_meta( $post_id, 'daftar_email_text', $_POST['daftar_email_text'] );
-        }
-		if( isset( $_POST['daftar_pass_text'] ) ){
-			update_post_meta( $post_id, 'daftar_pass_text', $_POST['daftar_pass_text'] );
-		}
 		if( isset( $_POST['admin_radio'] ) ){
-			update_post_meta( $post_id, 'keputusan_radio', $_POST['keputusan_radio'] );
+			update_post_meta( $post_id, 'admin_radio', $_POST['admin_radio'] );
 		}
 
 		
@@ -246,7 +205,7 @@ function set_custom_edit_daftar_columns($columns) {
     unset( $columns['date'] );
     $columns['nama_sendiri_text'] = __( 'Nama', 'your_text_domain' );
     $columns['email_text'] = __( 'Alamat Emel', 'your_text_domain' );
-	$columns['pass_text'] = __( 'Kata Laluan', 'your_text_domain' );
+	$columns['admin_radio'] = __( 'Pentadbir Sistem', 'your_text_domain' );
 
     return $columns;
 }
@@ -264,8 +223,8 @@ function custom_daftar_column( $column, $post_id ) {
             echo get_post_meta( $post_id , 'email_text' , true ); 
             break;
 
-		case 'tarikh_ambil_text' :
-			echo get_post_meta( $post_id , 'pass_text' , true ); 
+		case 'admin_radio' :
+			echo get_post_meta( $post_id , 'admin_radio' , true ); 
 			break;
 
     }
