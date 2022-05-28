@@ -16,4 +16,3 @@ function pendaftarankenderaan_load_scripts(){
 }
 
 add_action('wp_enqueue_scripts', 'pendaftarankenderaan_load_scripts');
-sdadasd
