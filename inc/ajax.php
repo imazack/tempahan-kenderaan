@@ -11,7 +11,7 @@
 add_action('wp_ajax_nopriv_stk_save_pengguna_akaun_form', 'stk_save_pengguna');  	//for every user
 add_action('wp_ajax_stk_save_pengguna_akaun_form', 'stk_save_pengguna');			//for log-in user only
 
-
+sdaad
 
 
 //user contact form
