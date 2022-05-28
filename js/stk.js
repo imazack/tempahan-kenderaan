@@ -17,8 +17,8 @@ $(document).ready(function(){
             phone   = form.find('#phone').val(),
             email   = form.find('#email').val(),
             pass    = form.find('#pass').val(),
-            yes_admin = form.find('#yes_admin').val(),
-            no_admin  = form.find('#no_admin').val(),
+            // yes_admin = form.find('#yes_admin').val(),
+            // no_admin  = form.find('#no_admin').val(),
             ajaxurl = form.data('url');
 
             console.log(ajaxurl);
@@ -83,7 +83,7 @@ $(document).ready(function(){
                 phone : phone,
                 email : email,
                 pass : pass,
-                yes_admin : yes_admin,
+                // yes_admin : yes_admin,
                 action : 'stk_save_pengguna_akaun_form'
             },
             error : function(response){
