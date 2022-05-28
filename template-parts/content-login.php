@@ -6,10 +6,6 @@
 
         <form id="stkdaftarakauan" action="#" method="post" class="form" data-url="<?php echo admin_url('admin-ajax.php') ?>">
            <div class="inputfield">
-              <label>Nama Sendiri</label>
-              <input type="text" class="input" placeholder="Nama Sendiri" id="Fname">
-           </div>
-           <div class="inputfield">
            <label>ID Pengguna</label>
               <input type="text" class="input" placeholder="Emel Rasmi">
            </div> 

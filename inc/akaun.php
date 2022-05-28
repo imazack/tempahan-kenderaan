@@ -113,27 +113,27 @@ function stk_pendaftaran_metabox_sb($post)
 	// We'll use this nonce field later on when saving.
 	wp_nonce_field( 'stk_pendaftaran_metabox_nonce', 'stk_nonce' );
 	
-	$namasendiri = get_post_meta( $post->ID, 'nama_sendiri_text', true );
-	$namakeluarga = get_post_meta( $post->ID, 'nama_keluarga_text', true );
-	$jawatan = get_post_meta( $post->ID, 'jawatan_text', true );
-	$bahagian = get_post_meta( $post->ID, 'bahagian_select', true );
-	$phone = get_post_meta( $post->ID, 'phone_text', true );
-	$email = get_post_meta( $post->ID, 'email_text', true );
-    $pass = get_post_meta($post->ID, 'password_text', true);
+	$namasendiri = get_post_meta( $post->ID, 'daftar_nama_sendiri_text', true );
+	$namakeluarga = get_post_meta( $post->ID, 'daftar_nama_keluarga_text', true );
+	$jawatan = get_post_meta( $post->ID, 'daftar_jawatan_text', true );
+	$bahagian = get_post_meta( $post->ID, 'daftar_bahagian_select', true );
+	$phone = get_post_meta( $post->ID, 'daftar_phone_text', true );
+	$email = get_post_meta( $post->ID, 'daftar_email_text', true );
+    $pass = get_post_meta($post->ID, 'daftar_password_text', true);
 
 	?>
 	<p>
 		<label for="nama_text">Nama Penuh</label>
-		<input type="text" name="nama_sendiri_text" id="nama_sendiri_text" value="<?php echo esc_attr($namasendiri); ?>" placeholder="Nama Sendiri" />
-		<input type="text" name="nama_keluarga_text" id="nama_keluarga_text" value="<?php echo esc_attr($namakeluarga); ?>" placeholder="Nama Keluarga" />
+		<input type="text" name="daftar_nama_sendiri_text" id="daftar_nama_sendiri_text" value="<?php echo esc_attr($namasendiri); ?>" placeholder="Nama Sendiri" />
+		<input type="text" name="daftar_nama_keluarga_text" id="daftar_nama_keluarga_text" value="<?php echo esc_attr($namakeluarga); ?>" placeholder="Nama Keluarga" />
 	</p>
 	<p>
-		<label for="jawatan_text">Jawatan</label>
+		<label for="daftar_jawatan_text">Jawatan</label>
 		<input type="text" name="jawatan_text" id="jawatan_text" value="<?php echo esc_attr($jawatan); ?>" />
 	</p>
 	<p>
-		<label for="bahagian_select">Bahagian</label>
-		<select name="bahagian_select" id="bahagian_select">
+		<label for="daftar_bahagian_select">Bahagian</label>
+		<select name="bahagian_select" id="daftar_bahagian_select">
 			<option value="none" selected disabled hidden>Nyatakan Bahagian</option>
             <option value="pengurusan_atasan" <?php selected( $bahagian, 'pengurusan_atasan' ); ?>>Pengurusan Atasan (KP,TKP (D), TKP (O)</option>
             <option value="bkp" <?php selected( $bahagian, 'bkp' ); ?>>Bahagian Khidmat Pengurusan</option>
@@ -148,13 +148,13 @@ function stk_pendaftaran_metabox_sb($post)
         </select>
 	</p>
 	<p>
-		<label for="phone_text">No. Telefon</label>
-		<input type="text" name="phone_text" id="phone_text" value="<?php echo esc_attr($phone); ?>" />
-		<label for="email_text">Emel</label>
-		<input type="email" name="email_text" id="email_text" value="<?php echo esc_attr($email); ?>" placeholder="Emel Rasmi" />
+		<label for="daftar_phone_text">No. Telefon</label>
+		<input type="text" name="daftar_phone_text" id="daftar_phone_text" value="<?php echo esc_attr($phone); ?>" />
+		<label for="daftar_email_text">Emel</label>
+		<input type="daftar_email" name="email_text" id="daftar_email_text" value="<?php echo esc_attr($email); ?>" placeholder="Emel Rasmi" />
 	</p>
-		<label for="pass_text">Cipta Kata Laluan</label>
-        <input type="password" name="pass_text" id="pass_text" value="<?php echo esc_attr($pass); ?>" placeholder="Cipta Kata Laluan" />
+		<label for="daftar_pass_text">Cipta Kata Laluan</label>
+        <input type="password" name="daftar_pass_text" id="daftar_pass_text" value="<?php echo esc_attr($pass); ?>" placeholder="Cipta Kata Laluan" />
 	<p>
 		<label for="admin_radio">Adakah Anda Pentadbir Sistem</label>
 		<input type="radio" name="keputusan_radio" value="Lulus" <?php echo ($keputusan == 'Lulus')? 'checked="checked"':''; ?>/>Ya
@@ -203,26 +203,26 @@ function stk_pendaftaran_metabox_save( $post_id )
 		/////////////////////
 
     // Make sure your data is set before trying to save it
-    if( isset( $_POST['nama_sendiri_text'] ) ){
-        update_post_meta( $post_id, 'nama_sendiri_text', $_POST['nama_sendiri_text'] );
+    if( isset( $_POST['daftar_nama_sendiri_text'] ) ){
+        update_post_meta( $post_id, 'daftar_nama_sendiri_text', $_POST['daftar_nama_sendiri_text'] );
 		}
 		if( isset( $_POST['nama_keluarga_text'] ) ){
-			update_post_meta( $post_id, 'nama_keluarga_text', $_POST['nama_keluarga_text'] );
+			update_post_meta( $post_id, 'nama_keluarga_text', $_POST['daftar_nama_keluarga_text'] );
 		}
-		if( isset( $_POST['jawatan_text'] ) ){
-			update_post_meta( $post_id, 'jawatan_text', $_POST['jawatan_text'] );
+		if( isset( $_POST['daftar_jawatan_text'] ) ){
+			update_post_meta( $post_id, 'daftar_jawatan_text', $_POST['daftar_jawatan_text'] );
 		}
-		if( isset( $_POST['bahagian_select'] ) ){
-			update_post_meta( $post_id, 'bahagian_select', $_POST['bahagian_select'] );
+		if( isset( $_POST['daftar_bahagian_select'] ) ){
+			update_post_meta( $post_id, 'daftar_bahagian_select', $_POST['daftar_bahagian_select'] );
 		}
-		if( isset( $_POST['phone_text'] ) ){
-			update_post_meta( $post_id, 'phone_text', $_POST['phone_text'] );
+		if( isset( $_POST['daftar_phone_text'] ) ){
+			update_post_meta( $post_id, 'daftar_phone_text', $_POST['daftar_phone_text'] );
 		}
-		if( isset( $_POST['email_text'] ) ){
-			update_post_meta( $post_id, 'email_text', $_POST['email_text'] );
+		if( isset( $_POST['daftar_email_text'] ) ){
+			update_post_meta( $post_id, 'daftar_email_text', $_POST['daftar_email_text'] );
         }
-		if( isset( $_POST['pass_text'] ) ){
-			update_post_meta( $post_id, 'pass_text', $_POST['pass_text'] );
+		if( isset( $_POST['daftar_pass_text'] ) ){
+			update_post_meta( $post_id, 'daftar_pass_text', $_POST['daftar_pass_text'] );
 		}
 		if( isset( $_POST['admin_radio'] ) ){
 			update_post_meta( $post_id, 'keputusan_radio', $_POST['keputusan_radio'] );
