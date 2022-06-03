@@ -7,62 +7,52 @@
 
 /* +++++ Front-End +++++ */
 
-//pengguna pendaftaran akaun form
-add_action('wp_ajax_nopriv_stk_save_pengguna_akaun_form', 'stk_save_pengguna');  	//for every user
-add_action('wp_ajax_stk_save_pengguna_akaun_form', 'stk_save_pengguna');			//for log-in user only
+//Contact Form Submission
 
-
+//user contact form
+add_action('wp_ajax_nopriv_bzbr001_save_user_contact_form', 'bzbr001_save_contact');  	//for every user
+add_action('wp_ajax_bzbr001_save_user_contact_form', 'bzbr001_save_contact');			//for log-in user only
 
 
 //user contact form
-function stk_save_pengguna(){
+function bzbr001_save_contact(){
 	
-	$Fname = wp_strip_all_tags($_POST["Fname"]);
-	$Lname = wp_strip_all_tags($_POST["Lname"]);
-	$jawatan = wp_strip_all_tags($_POST["jawatan"]);
-    $bahagian = wp_strip_all_tags(get_option('bahagian'));
-    $phone = wp_strip_all_tags($_POST["phone"]);
-	$email = wp_strip_all_tags($_POST["email"]);	
-	$pass = wp_strip_all_tags($_POST["pass"]);
-	//$radio_admin = wp_strip_all_tags(get_option('yes_admin')); 
+	$name = wp_strip_all_tags($_POST["name"]);
+	$email = wp_strip_all_tags($_POST["email"]);
+	$message = wp_strip_all_tags($_POST["message"]);
+	$companyName = esc_attr(get_option('company_name'));
+	$emailAdd = esc_attr(get_option('email_add'));
+	$autoMsg = esc_attr(get_option('autorespond_message')); 
 	
 	$args = array (
-		'post_title'	=>	$Fname,
-		//'post_content'  =>	$message,
+		'post_title'	=>	$name,
+		'post_content'=>	$message,
 		'post_author'	=>	1,
 		'post_status'	=>	'publish',
-		'post_type'	    =>	'daftar-stk',
-		'meta_input'	=>	array(
-                            'nama_sendiri_text'  => $Fname,
-                            'nama_keluarga_text' => $Lname,
-                            'jawatan_text'       => $jawatan,
-                            'bahagian_select'    => $bahagian,
-                            'phone_text'         => $phone,
-                            'email_text'         => $email,
-                            'pass_text'          => $pass,
-                            //'yes_admin'    	=> $radio_admin,
-                            )
+		'post_type'	=>	'stk-contact',
+		'meta_input'	=>	array('_contact_email_value_key' => $email)
 	);
 	
 	$postID = wp_insert_post($args);
 	
-	// if($postID !== 0){
+	if($postID !== 0){
 	
-	// 	$to = $emailAdd;
-	// 	$subject = $companyName.' Contact Form -'.$name;
-	// 	$message = $autoMsg.'<br><hr><p>'.$message.'</p>';
+		$to = $emailAdd;
+		$subject = $companyName.' Contact Form -'.$name;
+		$message = $autoMsg.'<br><hr><p>'.$message.'</p>';
 		
-	// 	$headers[] = 'From:'.$companyName.'<'.$to.'>';
-	// 	$headers[] = 'Reply-To:'.$name.'<'.$email.'>';
-	// 	$headers[] = 'Content-Type: text/html: charset=UTF-8';
+		$headers[] = 'From:'.$companyName.'<'.$to.'>';
+		$headers[] = 'Reply-To:'.$name.'<'.$email.'>';
+		$headers[] = 'Content-Type: text/html: charset=UTF-8';
 	
-	// 	wp_mail($to, $subject, $message, $headers);
+		wp_mail($to, $subject, $message, $headers);
 		
-	// 	echo $postID;
+		echo $postID;
 		
-	// }else{
-	// 	echo 0;
-	// }
+	}else{
+		echo 0;
+	}
 	
 	die();
 }
+
