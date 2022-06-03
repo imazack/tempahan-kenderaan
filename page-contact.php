@@ -6,9 +6,24 @@
 ?>
 <?php get_header(); ?>
 
-    <div class="wrapper">
-    <div class="title">Pendaftaran Akaun</div>
-    <?php get_template_part('template-parts/form', 'contact'); ?>
-    </div>
+<section>
+	<div class="wrapper">
+		<?php the_content(); ?>
+	</div>
+</section>
+<section>
+	<div class="container main">
+		<div class="row">
 
+			<div class="col-xs-6 col-xs-offset-1" id="contactForm">
+				
+				 <?php get_template_part('template-parts/form', 'daftar'); ?>
+
+			</div>
+			<!-- <div class="col-xs-5 " id="address">
+				<?php get_template_part('template-parts/partials/address'); ?>
+			</div> -->
+		</div>
+	</div>
+</section>
 <?php get_footer(); ?>

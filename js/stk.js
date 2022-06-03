@@ -11,9 +11,9 @@ $(document).ready(function(){
 		// $('.js-show-feedback').removeClass('js-show-feedback');
 		
 		var form = $(this),
-			name 	= form.find('#name').val(),
+			name 	= form.find('#nama').val(),
 			email 	= form.find('#email').val(),
-			message = form.find('#message').val(),
+			message = form.find('#noTel').val(),
 			ajaxurl = form.data('url');
 			
 		// if(name === ''){
@@ -39,10 +39,10 @@ $(document).ready(function(){
 			url: ajaxurl,
 			type : 'post',
 			data : {
-				name : name,
+				name : nama,
 				email : email,
 				message : message,
-				action : 'bzbr001_save_user_contact_form'
+				action : 'stk_save_user_daftar_form'
 			},
 			error : function(response){
                 console.log(response);
