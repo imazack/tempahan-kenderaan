@@ -20,9 +20,6 @@
 				 <?php get_template_part('template-parts/form', 'daftar'); ?>
 
 			</div>
-			<!-- <div class="col-xs-5 " id="address">
-				<?php get_template_part('template-parts/partials/address'); ?>
-			</div> -->
 		</div>
 	</div>
 </section>
